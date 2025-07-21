@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Layout from '../components/Layout';
+import Layout from '../components/Layout'; // تأكد من أن المسار صحيح
 import FileUpload from '../components/FileUpload';
 import ResultsDisplay from '../components/ResultsDisplay';
 
