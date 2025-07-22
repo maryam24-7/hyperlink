@@ -82,12 +82,12 @@ export default function ResumeATSCheckerPro() {
       disabled={disabled}
       className={`
         px-6 py-3 rounded-lg font-medium transition-all transform hover:scale-105
-        focus:outline-none focus:ring-2 focus:ring-opacity-50 shadow-md
+        focus:outline-none focus:ring-2 focus:ring-opacity-50 shadow-lg
         ${disabled 
           ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
           : color === 'blue' 
-            ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 focus:ring-blue-400' 
-            : 'bg-gradient-to-r from-gray-200 to-gray-300 text-gray-800 hover:from-gray-300 hover:to-gray-400 focus:ring-gray-300'
+            ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 focus:ring-blue-400 shadow-blue-500/30' 
+            : 'bg-gradient-to-r from-gray-200 to-gray-300 text-gray-800 hover:from-gray-300 hover:to-gray-400 focus:ring-gray-300 shadow-gray-500/20'
         }
       `}
     >
@@ -99,7 +99,7 @@ export default function ResumeATSCheckerPro() {
 
   // تصميم بطاقة النتائج
   const ResultCard = ({ title, icon, color, children }) => (
-    <div className={`bg-${color}-50 p-5 rounded-xl shadow-sm border-l-4 border-${color}-500`}>
+    <div className={`bg-white p-5 rounded-xl shadow-lg border-l-4 border-${color}-500 transition-all duration-300 hover:shadow-xl`}>
       <div className="flex items-center mb-3">
         <div className={`bg-${color}-100 p-2 rounded-lg mr-3`}>
           {icon}
@@ -113,9 +113,9 @@ export default function ResumeATSCheckerPro() {
   // تصميم شريط التقدم
   const ProgressBar = ({ percentage }) => {
     const getColor = (percent) => {
-      if (percent >= 80) return 'bg-green-500';
-      if (percent >= 60) return 'bg-yellow-500';
-      return 'bg-red-500';
+      if (percent >= 80) return 'bg-gradient-to-r from-green-500 to-emerald-500';
+      if (percent >= 60) return 'bg-gradient-to-r from-yellow-500 to-amber-500';
+      return 'bg-gradient-to-r from-red-500 to-orange-500';
     };
     
     return (
@@ -142,11 +142,19 @@ export default function ResumeATSCheckerPro() {
         <meta property="og:type" content="website" />
       </Head>
 
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-8 text-white text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3">Resume ATS Checker Pro</h1>
-          <p className="text-lg opacity-90">Optimize your resume for Applicant Tracking Systems and job descriptions</p>
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-8 text-white text-center relative">
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
+            <div className="absolute -top-10 -left-10 w-20 h-20 rounded-full bg-white"></div>
+            <div className="absolute top-1/4 right-1/4 w-32 h-32 rounded-full bg-indigo-500"></div>
+            <div className="absolute bottom-10 left-1/3 w-24 h-24 rounded-full bg-blue-500"></div>
+          </div>
+          
+          <div className="relative z-10">
+            <h1 className="text-3xl md:text-4xl font-bold mb-3">Resume ATS Checker Pro</h1>
+            <p className="text-lg opacity-90">Optimize your resume for Applicant Tracking Systems and job descriptions</p>
+          </div>
         </div>
 
         {/* Tabs */}
@@ -181,7 +189,7 @@ export default function ResumeATSCheckerPro() {
 
         <div className="p-6 md:p-8">
           {error && (
-            <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-lg flex items-center">
+            <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-lg flex items-center animate-pulse">
               <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
               </svg>
@@ -209,7 +217,7 @@ export default function ResumeATSCheckerPro() {
                   </p>
                   
                   <div 
-                    className="border-2 border-dashed border-gray-300 rounded-xl p-10 cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all duration-300"
+                    className="border-2 border-dashed border-gray-300 rounded-xl p-10 cursor-pointer bg-gradient-to-br from-blue-50 to-indigo-50 hover:bg-gradient-to-br hover:from-blue-100 hover:to-indigo-100 transition-all duration-300"
                     onClick={() => fileInputRef.current.click()}
                   >
                     <input
@@ -220,7 +228,7 @@ export default function ResumeATSCheckerPro() {
                       onChange={handleFileChange}
                     />
                     <div className="flex flex-col items-center">
-                      <div className="bg-blue-100 p-4 rounded-full mb-5">
+                      <div className="bg-gradient-to-br from-blue-100 to-indigo-100 p-4 rounded-full mb-5">
                         <svg className="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                         </svg>
@@ -314,7 +322,7 @@ export default function ResumeATSCheckerPro() {
                                 )`
                               }}
                             >
-                              <div className="absolute inset-5 bg-white rounded-full flex flex-col items-center justify-center shadow-sm">
+                              <div className="absolute inset-5 bg-white rounded-full flex flex-col items-center justify-center shadow-md">
                                 <span className="text-3xl font-bold text-gray-800">{atsResult.score}%</span>
                                 <span className="text-sm text-gray-500 mt-1">ATS Score</span>
                               </div>
@@ -521,7 +529,7 @@ export default function ResumeATSCheckerPro() {
                                 )`
                               }}
                             >
-                              <div className="absolute inset-5 bg-white rounded-full flex flex-col items-center justify-center shadow-sm">
+                              <div className="absolute inset-5 bg-white rounded-full flex flex-col items-center justify-center shadow-md">
                                 <span className="text-3xl font-bold text-gray-800">{comparisonResult.matchPercentage}%</span>
                                 <span className="text-sm text-gray-500 mt-1">Match Score</span>
                               </div>
