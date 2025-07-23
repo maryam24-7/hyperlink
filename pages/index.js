@@ -26,6 +26,7 @@ export default function Home() {
     <>
       <Head>
         <title>Resume ATS Checker Pro</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className={styles.container}>
         <h1>📄 Resume ATS Checker Pro</h1>
@@ -70,4 +71,4 @@ export default function Home() {
       </div>
     </>
   );
-    }
+}
