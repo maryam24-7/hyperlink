@@ -1,0 +1,57 @@
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+}
+
+h1 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.textarea {
+  width: 100%;
+  height: 150px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 0.7rem 1.5rem;
+  background: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #0055cc;
+}
+
+.result {
+  background-color: #fff;
+  border: 2px dashed #0070f3;
+  padding: 1rem;
+  border-radius: 15px;
+  margin-top: 1rem;
+  text-align: left;
+  color: #333;
+}
