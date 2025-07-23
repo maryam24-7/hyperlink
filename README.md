@@ -1,13 +1,24 @@
-# resume-analyzer
+# ShortXpress Pro – Link Shortening Platform
+A modern, Arabic-friendly link shortener with user authentication, click tracking, and a sleek dashboard. Built with Next.js and Firebase.
 
-# Resume Analyzer
+🚀 Features
+✂️ Shorten long URLs into custom short links
 
-An AI-powered tool for analyzing resumes to help you pass ATS (Applicant Tracking Systems).
+🔁 Automatic redirection to the original URL
 
-# Features
+📈 Track clicks and link statistics
 
-Keyword analysis
+🔐 Google Sign-In via Firebase Auth
 
-Comparison with real job descriptions
+🧾 Full link management dashboard
 
-Recommendations to improve your resume
+🌐 Arabic user interface with responsive design
+
+🛠️ Tech Stack
+Next.js with TypeScript
+
+Tailwind CSS for modern styling
+
+Firebase (Auth + Firestore) as backend
+
+nanoid for generating unique short codes
