@@ -1,4 +1,4 @@
-# ShortXpress Pro – Link Shortening Platform
+# hyperlink – Link Shortening Platform
 A modern, Arabic-friendly link shortener with user authentication, click tracking, and a sleek dashboard. Built with Next.js and Firebase.
 
 🚀 Features
