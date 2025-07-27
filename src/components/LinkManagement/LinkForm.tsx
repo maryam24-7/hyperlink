@@ -48,11 +48,11 @@ export default function LinkForm() {
         <input type="url" value={url} onChange={e => setUrl(e.target.value)} required />
       </div>
       <div className="form-group">
-        <label>Custom Alias <small>(اختياري)</small></label>
+        <label>Custom Alias <small>(Optional)</small></label>
         <input type="text" value={customAlias} onChange={e => setCustomAlias(e.target.value)} />
       </div>
       <div className="form-group">
-        <label>Expiration Date <small>(اختياري)</small></label>
+        <label>Expiration Date <small>(Optional)</small></label>
         <DatePicker selected={expiresAt} onChange={date => setExpiresAt(date)} minDate={new Date()} placeholderText="Never expires" className="date-picker" />
       </div>
       <button type="submit" disabled={isLoading} style={{ width: "100%" }}>
