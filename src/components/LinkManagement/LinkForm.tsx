@@ -43,21 +43,52 @@ export default function LinkForm() {
 
   return (
     <form onSubmit={handleSubmit} className="card" style={{ textAlign: "left" }}>
-      <div className="form-group">
-        <label>Destination URL</label>
-        <input type="url" value={url} onChange={e => setUrl(e.target.value)} required />
+      {/* كل حقل داخل div بفليكس لعمل محاذاة أفقية */}
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
+        <label style={{ width: 160, fontWeight: 'bold' }}>Destination URL</label>
+        <input
+          type="url"
+          value={url}
+          onChange={e => setUrl(e.target.value)}
+          required
+          style={{ flexGrow: 1, padding: 8, fontSize: 16 }}
+        />
       </div>
-      <div className="form-group">
-        <label>Custom Alias <small>(Optional)</small></label>
-        <input type="text" value={customAlias} onChange={e => setCustomAlias(e.target.value)} />
+
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
+        <label style={{ width: 160, fontWeight: 'bold' }}>
+          Custom Alias <small style={{ fontWeight: 'normal', fontSize: '0.8em' }}>(Optional)</small>
+        </label>
+        <input
+          type="text"
+          value={customAlias}
+          onChange={e => setCustomAlias(e.target.value)}
+          style={{ flexGrow: 1, padding: 8, fontSize: 16 }}
+        />
       </div>
-      <div className="form-group">
-        <label>Expiration Date <small>(Optional)</small></label>
-        <DatePicker selected={expiresAt} onChange={date => setExpiresAt(date)} minDate={new Date()} placeholderText="Never expires" className="date-picker" />
+
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
+        <label style={{ width: 160, fontWeight: 'bold' }}>
+          Expiration Date <small style={{ fontWeight: 'normal', fontSize: '0.8em' }}>(Optional)</small>
+        </label>
+        <DatePicker
+          selected={expiresAt}
+          onChange={date => setExpiresAt(date)}
+          minDate={new Date()}
+          placeholderText="Never expires"
+          className="date-picker"
+          style={{ flexGrow: 1, padding: 8, fontSize: 16 }}
+        />
       </div>
-      <button type="submit" disabled={isLoading} style={{ width: "100%" }}>
+
+      <button
+        type="submit"
+        disabled={isLoading}
+        style={{ width: "100%", padding: 12, fontSize: 18, cursor: isLoading ? 'not-allowed' : 'pointer' }}
+      >
         {isLoading ? "Creating..." : "Shorten URL"}
       </button>
+
       {qrCode && (
         <div style={{ marginTop: 24 }}>
           <b>Your QR:</b>
