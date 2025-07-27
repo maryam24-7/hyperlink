@@ -41,34 +41,62 @@ export default function LinkForm() {
     }
   };
 
+  // نمط مشترك للحقل الواحد: عمودي في الجوال، أفقي في الحاسوب
+  const fieldStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: 16,
+  };
+
+  const labelStyle: React.CSSProperties = {
+    marginBottom: 6,
+    fontWeight: 'bold',
+  };
+
+  const inputStyle: React.CSSProperties = {
+    padding: 8,
+    fontSize: 16,
+    width: '100%',
+  };
+
+  // خاص بالحواسيب - يتم تفعيله عبر media query في CSS أو باستخدام window.innerWidth
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
+
+  if (isDesktop) {
+    fieldStyle.flexDirection = 'row';
+    fieldStyle.alignItems = 'center';
+    labelStyle.width = 160;
+    labelStyle.marginBottom = 0;
+    inputStyle.flexGrow = 1;
+  }
+
   return (
     <form onSubmit={handleSubmit} className="card" style={{ textAlign: "left" }}>
-      {/* كل حقل داخل div بفليكس لعمل محاذاة أفقية */}
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
-        <label style={{ width: 160, fontWeight: 'bold' }}>Destination URL</label>
+      <div style={fieldStyle}>
+        <label style={labelStyle}>Destination URL</label>
         <input
           type="url"
           value={url}
           onChange={e => setUrl(e.target.value)}
           required
-          style={{ flexGrow: 1, padding: 8, fontSize: 16 }}
+          style={inputStyle}
         />
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
-        <label style={{ width: 160, fontWeight: 'bold' }}>
+      <div style={fieldStyle}>
+        <label style={labelStyle}>
           Custom Alias <small style={{ fontWeight: 'normal', fontSize: '0.8em' }}>(Optional)</small>
         </label>
         <input
           type="text"
           value={customAlias}
           onChange={e => setCustomAlias(e.target.value)}
-          style={{ flexGrow: 1, padding: 8, fontSize: 16 }}
+          style={inputStyle}
         />
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
-        <label style={{ width: 160, fontWeight: 'bold' }}>
+      <div style={fieldStyle}>
+        <label style={labelStyle}>
           Expiration Date <small style={{ fontWeight: 'normal', fontSize: '0.8em' }}>(Optional)</small>
         </label>
         <DatePicker
@@ -77,7 +105,8 @@ export default function LinkForm() {
           minDate={new Date()}
           placeholderText="Never expires"
           className="date-picker"
-          style={{ flexGrow: 1, padding: 8, fontSize: 16 }}
+          wrapperClassName="date-picker-wrapper"
+          style={inputStyle}
         />
       </div>
 
