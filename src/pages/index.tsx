@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div style={{ maxWidth: 500, margin: "40px auto" }}>
       <header style={{ textAlign: "center", padding: "16px 0" }}>
-        <img src="/images/logo.svg" alt="HyberLink Logo" style={{ width: 64, height: 64 }} />
+        <img src="/images/logo.png" alt="HyberLink Logo" style={{ width: 64, height: 64 }} />
         <h1 style={{ fontWeight: "bold", fontSize: 32, margin: "16px 0 0 0" }}>HyberLink</h1>
         <p style={{ color: "#555" }}>The modern, secure, analytics-powered URL shortener</p>
       </header>
