@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
-const QRGenerator = dynamic(() => import('./QRGenerator'), { ssr: false });
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast } from 'react-hot-toast';
@@ -9,7 +7,6 @@ export default function LinkForm() {
   const [url, setUrl] = useState('');
   const [customAlias, setCustomAlias] = useState('');
   const [expiresAt, setExpiresAt] = useState<Date | null>(null);
-  const [qrCode, setQrCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -28,7 +25,6 @@ export default function LinkForm() {
       const data = await response.json();
       if (response.ok) {
         toast.success('Link created!');
-        setQrCode(data.qrCodeUrl);
         setUrl('');
         setCustomAlias('');
         setExpiresAt(null);
@@ -42,7 +38,6 @@ export default function LinkForm() {
     }
   };
 
-  // نمط مشترك للحقل الواحد: عمودي في الجوال، أفقي في الحاسوب
   const fieldStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
@@ -60,17 +55,6 @@ export default function LinkForm() {
     width: '100%',
   };
 
-  // خاص بالحواسيب - يتم تفعيله عبر media query في CSS أو باستخدام window.innerWidth
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
-
-  if (isDesktop) {
-    fieldStyle.flexDirection = 'row';
-    fieldStyle.alignItems = 'center';
-    labelStyle.width = 160;
-    labelStyle.marginBottom = 0;
-    inputStyle.flexGrow = 1;
-  }
-
   return (
     <form onSubmit={handleSubmit} className="card" style={{ textAlign: "left" }}>
       <div style={fieldStyle}>
@@ -83,7 +67,6 @@ export default function LinkForm() {
           style={inputStyle}
         />
       </div>
-
       <div style={fieldStyle}>
         <label style={labelStyle}>
           Custom Alias <small style={{ fontWeight: 'normal', fontSize: '0.8em' }}>(Optional)</small>
@@ -95,7 +78,6 @@ export default function LinkForm() {
           style={inputStyle}
         />
       </div>
-
       <div style={fieldStyle}>
         <label style={labelStyle}>
           Expiration Date <small style={{ fontWeight: 'normal', fontSize: '0.8em' }}>(Optional)</small>
@@ -110,7 +92,6 @@ export default function LinkForm() {
           style={inputStyle}
         />
       </div>
-
       <button
         type="submit"
         disabled={isLoading}
@@ -118,13 +99,6 @@ export default function LinkForm() {
       >
         {isLoading ? "Creating..." : "Shorten URL"}
       </button>
-
-      {qrCode && (
-        <div style={{ marginTop: 24 }}>
-          <b>Your QR:</b>
-          <QRGenerator url={qrCode} />
-        </div>
-      )}
     </form>
   );
-}
+          }
