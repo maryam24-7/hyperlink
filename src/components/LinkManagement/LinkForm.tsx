@@ -12,6 +12,10 @@ export default function LinkForm() {
   const [qrCode, setQrCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // --- جديد: حالة لإدخال رابط خارجي لتوليد QR فقط ---
+  const [externalUrl, setExternalUrl] = useState('');
+  const [externalQrCode, setExternalQrCode] = useState('');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -42,7 +46,16 @@ export default function LinkForm() {
     }
   };
 
-  // نمط مشترك للحقل الواحد: عمودي في الجوال، أفقي في الحاسوب
+  // --- جديد: توليد QR مباشر للرابط الخارجي بدون تقصير ---
+  const handleGenerateExternalQr = () => {
+    if (!externalUrl) {
+      toast.error('Please enter a URL to generate QR code.');
+      return;
+    }
+    setExternalQrCode(externalUrl);
+  };
+
+  // أنماط الحقول كما كانت
   const fieldStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
@@ -60,9 +73,8 @@ export default function LinkForm() {
     width: '100%',
   };
 
-  // خاص بالحواسيب - يتم تفعيله عبر media query في CSS أو باستخدام window.innerWidth
+  // Responsive layout (كما في الكود الأصلي)
   const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
-
   if (isDesktop) {
     fieldStyle.flexDirection = 'row';
     fieldStyle.alignItems = 'center';
@@ -72,59 +84,91 @@ export default function LinkForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="card" style={{ textAlign: "left" }}>
-      <div style={fieldStyle}>
-        <label style={labelStyle}>Destination URL</label>
-        <input
-          type="url"
-          value={url}
-          onChange={e => setUrl(e.target.value)}
-          required
-          style={inputStyle}
-        />
-      </div>
-
-      <div style={fieldStyle}>
-        <label style={labelStyle}>
-          Custom Alias <small style={{ fontWeight: 'normal', fontSize: '0.8em' }}>(Optional)</small>
-        </label>
-        <input
-          type="text"
-          value={customAlias}
-          onChange={e => setCustomAlias(e.target.value)}
-          style={inputStyle}
-        />
-      </div>
-
-      <div style={fieldStyle}>
-        <label style={labelStyle}>
-          Expiration Date <small style={{ fontWeight: 'normal', fontSize: '0.8em' }}>(Optional)</small>
-        </label>
-        <DatePicker
-          selected={expiresAt}
-          onChange={date => setExpiresAt(date)}
-          minDate={new Date()}
-          placeholderText="Never expires"
-          className="date-picker"
-          wrapperClassName="date-picker-wrapper"
-          style={inputStyle}
-        />
-      </div>
-
-      <button
-        type="submit"
-        disabled={isLoading}
-        style={{ width: "100%", padding: 12, fontSize: 18, cursor: isLoading ? 'not-allowed' : 'pointer' }}
-      >
-        {isLoading ? "Creating..." : "Shorten URL"}
-      </button>
-
-      {qrCode && (
-        <div style={{ marginTop: 24 }}>
-          <b>Your QR:</b>
-          <QRGenerator url={qrCode} />
+    <>
+      {/* فورم تقصير الرابط */}
+      <form onSubmit={handleSubmit} className="card" style={{ textAlign: "left" }}>
+        <div style={fieldStyle}>
+          <label style={labelStyle}>Destination URL</label>
+          <input
+            type="url"
+            value={url}
+            onChange={e => setUrl(e.target.value)}
+            required
+            style={inputStyle}
+          />
         </div>
-      )}
-    </form>
+
+        <div style={fieldStyle}>
+          <label style={labelStyle}>
+            Custom Alias <small style={{ fontWeight: 'normal', fontSize: '0.8em' }}>(Optional)</small>
+          </label>
+          <input
+            type="text"
+            value={customAlias}
+            onChange={e => setCustomAlias(e.target.value)}
+            style={inputStyle}
+          />
+        </div>
+
+        <div style={fieldStyle}>
+          <label style={labelStyle}>
+            Expiration Date <small style={{ fontWeight: 'normal', fontSize: '0.8em' }}>(Optional)</small>
+          </label>
+          <DatePicker
+            selected={expiresAt}
+            onChange={date => setExpiresAt(date)}
+            minDate={new Date()}
+            placeholderText="Never expires"
+            className="date-picker"
+            wrapperClassName="date-picker-wrapper"
+            style={inputStyle}
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          style={{ width: "100%", padding: 12, fontSize: 18, cursor: isLoading ? 'not-allowed' : 'pointer' }}
+        >
+          {isLoading ? "Creating..." : "Shorten URL"}
+        </button>
+
+        {qrCode && (
+          <div style={{ marginTop: 24 }}>
+            <b>Your QR:</b>
+            <QRGenerator url={qrCode} />
+          </div>
+        )}
+      </form>
+
+      {/* --- جديد: أداة توليد QR مباشر للرابط الخارجي --- */}
+      <div className="card" style={{ marginTop: 48, textAlign: "left" }}>
+        <h3>Generate QR Code for any URL</h3>
+        <div style={fieldStyle}>
+          <label style={labelStyle}>Enter URL</label>
+          <input
+            type="url"
+            value={externalUrl}
+            onChange={e => setExternalUrl(e.target.value)}
+            placeholder="https://example.com"
+            style={inputStyle}
+          />
+        </div>
+        <button
+          type="button"
+          onClick={handleGenerateExternalQr}
+          style={{ width: "100%", padding: 12, fontSize: 18, cursor: 'pointer' }}
+        >
+          Generate QR Code
+        </button>
+
+        {externalQrCode && (
+          <div style={{ marginTop: 24 }}>
+            <b>QR Code:</b>
+            <QRGenerator url={externalQrCode} />
+          </div>
+        )}
+      </div>
+    </>
   );
 }
