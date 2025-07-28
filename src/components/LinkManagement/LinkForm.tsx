@@ -12,9 +12,9 @@ export default function LinkForm() {
   const [qrCode, setQrCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // --- جديد: حالة لإدخال رابط خارجي لتوليد QR فقط ---
-  const [externalUrl, setExternalUrl] = useState('');
-  const [externalQrCode, setExternalQrCode] = useState('');
+  // New state for direct QR link input
+  const [qrInput, setQrInput] = useState('');
+  const [qrInputValue, setQrInputValue] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,16 +46,7 @@ export default function LinkForm() {
     }
   };
 
-  // --- جديد: توليد QR مباشر للرابط الخارجي بدون تقصير ---
-  const handleGenerateExternalQr = () => {
-    if (!externalUrl) {
-      toast.error('Please enter a URL to generate QR code.');
-      return;
-    }
-    setExternalQrCode(externalUrl);
-  };
-
-  // أنماط الحقول كما كانت
+  // CSS styles
   const fieldStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
@@ -73,19 +64,15 @@ export default function LinkForm() {
     width: '100%',
   };
 
-  // Responsive layout (كما في الكود الأصلي)
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 768;
-  if (isDesktop) {
-    fieldStyle.flexDirection = 'row';
-    fieldStyle.alignItems = 'center';
-    labelStyle.width = 160;
-    labelStyle.marginBottom = 0;
-    inputStyle.flexGrow = 1;
-  }
+  // Handle QR input generation
+  const handleQrInput = (e: React.FormEvent) => {
+    e.preventDefault();
+    setQrInputValue(qrInput);
+  };
 
   return (
-    <>
-      {/* فورم تقصير الرابط */}
+    <div>
+      {/* URL Shortener Form */}
       <form onSubmit={handleSubmit} className="card" style={{ textAlign: "left" }}>
         <div style={fieldStyle}>
           <label style={labelStyle}>Destination URL</label>
@@ -95,6 +82,7 @@ export default function LinkForm() {
             onChange={e => setUrl(e.target.value)}
             required
             style={inputStyle}
+            placeholder="https://example.com"
           />
         </div>
 
@@ -107,6 +95,7 @@ export default function LinkForm() {
             value={customAlias}
             onChange={e => setCustomAlias(e.target.value)}
             style={inputStyle}
+            placeholder="your-custom-alias"
           />
         </div>
 
@@ -141,34 +130,37 @@ export default function LinkForm() {
         )}
       </form>
 
-      {/* --- جديد: أداة توليد QR مباشر للرابط الخارجي --- */}
-      <div className="card" style={{ marginTop: 48, textAlign: "left" }}>
-        <h3>Generate QR Code for any URL</h3>
+      {/* Divider */}
+      <div style={{ margin: "32px 0", borderTop: "1px solid #eee" }} />
+
+      {/* QR Code Generator */}
+      <form onSubmit={handleQrInput} className="card" style={{ textAlign: "left" }}>
         <div style={fieldStyle}>
-          <label style={labelStyle}>Enter URL</label>
+          <label style={labelStyle}>Generate QR code from any URL</label>
           <input
             type="url"
-            value={externalUrl}
-            onChange={e => setExternalUrl(e.target.value)}
-            placeholder="https://example.com"
+            value={qrInput}
+            onChange={e => setQrInput(e.target.value)}
             style={inputStyle}
+            placeholder="Paste any link to generate QR"
+            required
           />
         </div>
         <button
-          type="button"
-          onClick={handleGenerateExternalQr}
-          style={{ width: "100%", padding: 12, fontSize: 18, cursor: 'pointer' }}
+          type="submit"
+          style={{ width: "100%", padding: 12, fontSize: 18 }}
         >
-          Generate QR Code
+          Generate QR
         </button>
-
-        {externalQrCode && (
+        {qrInputValue && (
           <div style={{ marginTop: 24 }}>
-            <b>QR Code:</b>
-            <QRGenerator url={externalQrCode} />
+            <QRGenerator url={qrInputValue} />
+            <div style={{ textAlign: "center", marginTop: 8, wordBreak: 'break-all', fontSize: 13, color: "#555" }}>
+              {qrInputValue}
+            </div>
           </div>
         )}
-      </div>
-    </>
+      </form>
+    </div>
   );
 }
