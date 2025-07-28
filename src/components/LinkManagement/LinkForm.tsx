@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import QRGenerator from './QRGenerator';
+import dynamic from 'next/dynamic';
+const QRGenerator = dynamic(() => import('./QRGenerator'), { ssr: false });
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast } from 'react-hot-toast';
