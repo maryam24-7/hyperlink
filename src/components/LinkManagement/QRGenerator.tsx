@@ -1,3 +1,4 @@
+// src/components/LinkManagement/QRGenerator.tsx
 import QRCode from 'qrcode.react';
 
 export default function QRGenerator({ url, size = 200 }) {
