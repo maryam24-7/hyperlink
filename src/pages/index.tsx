@@ -1,4 +1,6 @@
+// src/pages/index.tsx
 import LinkForm from "../components/LinkManagement/LinkForm";
+import QRForm from "../components/LinkManagement/QRForm"; // استدعاء مكون توليد QR مستقل
 import Link from "next/link";
 import { FaChartBar, FaQrcode } from "react-icons/fa";
 
@@ -14,6 +16,7 @@ export default function Home() {
       </header>
       <main>
         <LinkForm />
+        <QRForm /> {/* توليد QR مستقل */}
         <div style={{ margin: "32px 0", textAlign: "center" }}>
           <Link href="/dashboard">
             <button style={{ marginRight: 12 }}>
