@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast } from 'react-hot-toast';
 
-// Lazy load QRGenerator
+// lazy load QRGenerator
 import dynamic from 'next/dynamic';
 const QRGenerator = dynamic(() => import('./QRGenerator'), { ssr: false });
 
@@ -15,7 +15,7 @@ export default function LinkForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [shortLink, setShortLink] = useState('');
 
-  // **احتفظ فقط بأداة توليد QR واحدة**
+  // **أداة QR واحدة فقط**
   const [qrInput, setQrInput] = useState('');
   const [qrInputValue, setQrInputValue] = useState('');
 
@@ -144,7 +144,7 @@ export default function LinkForm() {
       {/* Divider */}
       <div style={{ margin: "32px 0", borderTop: "1px solid #eee" }} />
 
-      {/* QR Code Generator - فقط أداة واحدة */}
+      {/* QR Code Generator */}
       <form onSubmit={handleQrInput} className="card" style={{ textAlign: "left" }}>
         <div style={fieldStyle}>
           <label style={labelStyle}>Generate QR code from any URL</label>
