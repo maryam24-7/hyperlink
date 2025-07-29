@@ -9,27 +9,38 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
   try {
     const { originalUrl, customAlias, expiresAt } = req.body;
+
+    // تحقق من صحة الرابط
     if (!originalUrl || !originalUrl.match(/^https?:\/\/.+/)) {
       return res.status(400).json({ error: 'Invalid URL' });
     }
-    const shortCode = customAlias || uuidv4().substring(0, 8);
+
+    // إنشاء كود مختصر (alias) عشوائي إذا لم يكن مخصصًا
+    const shortCode = customAlias ? customAlias.trim() : uuidv4().substring(0, 8);
+
+    // تحقق من عدم وجود alias مكرر في قاعدة البيانات
     if (customAlias) {
       const existingDoc = await getDoc(doc(db, 'links', shortCode));
       if (existingDoc.exists()) {
         return res.status(409).json({ error: 'Custom alias already in use' });
       }
     }
-    // Generate QR code
+
+    // توليد QR code على شكل Data URL
     const qrDataUrl = await QRCode.toDataURL(`${process.env.NEXT_PUBLIC_BASE_URL}/${shortCode}`);
+
+    // رفع صورة QR إلى Firebase Storage
     const qrRef = ref(storage, `qrcodes/${shortCode}.png`);
     await uploadString(qrRef, qrDataUrl.split(',')[1], 'base64', { contentType: 'image/png' });
     const qrCodeUrl = await getDownloadURL(qrRef);
 
-    // Create document
+    // حفظ بيانات الرابط المختصر في Firestore
     const docRef = doc(db, 'links', shortCode);
     await setDoc(docRef, {
       originalUrl,
@@ -39,13 +50,17 @@ export default async function handler(
       createdAt: new Date().toISOString(),
       clicks: 0
     });
+
+    // الرد بالبيانات الناجحة
     return res.status(200).json({
       shortUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/${shortCode}`,
       qrCodeUrl,
       shortCode,
       expiresAt
     });
-  } catch (error) {
-    return res.status(500).json({ error: 'Internal server error' });
+
+  } catch (error: any) {
+    console.error('Error creating short link:', error);
+    return res.status(500).json({ error: error.message || 'Internal server error' });
   }
 }
